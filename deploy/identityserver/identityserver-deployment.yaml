@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identityserver-deployment
+  labels:
+    app: identityserver
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      service: identityserver
+  template:
+    metadata:
+      labels:
+        app: identityserver
+        service: identityserver
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "identityserver"
+        dapr.io/app-port: "80"
+    spec:
+      containers:
+        - name: identityserver
+          image: rustemturk/identityserver4-sts-identity
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+              requests:
+                memory: 1G
+                cpu: 2000m              
+          env:
+            - name:  ASPNETCORE_ENVIRONMENT
+              value:  Production
+            - name: ASPNETCORE_URLS
+              value: http://+:80
+            - name: ConnectionStrings__ConfigurationDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserver-configmap
+                    key: ConnectionStrings__ConfigurationDbConnection                  
+            - name: ConnectionStrings__PersistedGrantDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserver-configmap
+                    key: ConnectionStrings__PersistedGrantDbConnection
+            - name: ConnectionStrings__IdentityDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserver-configmap
+                    key: ConnectionStrings__IdentityDbConnection                    
+            - name: ConnectionStrings__DataProtectionDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserver-configmap
+                    key: ConnectionStrings__DataProtectionDbConnection
+            - name: AdminConfiguration__IdentityAdminBaseUrl
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserver-configmap
+                    key: AdminConfiguration__IdentityAdminBaseUrl
+            - name: IdentityServerOptions__IssuerUri
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserver-configmap
+                    key: IdentityServerOptions__IssuerUri
+            - name: IdentityServerOptions__Events__RaiseErrorEvents
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserver-configmap
+                    key: IdentityServerOptions__Events__RaiseErrorEvents
+            - name: IdentityServerOptions__Events__RaiseInformationEvents
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserver-configmap
+                    key: IdentityServerOptions__Events__RaiseInformationEvents
+            - name: IdentityServerOptions__Events__RaiseFailureEvents
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserver-configmap
+                    key: IdentityServerOptions__Events__RaiseFailureEvents
+            - name: IdentityServerOptions__Events__RaiseSuccessEvents
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserver-configmap
+                    key: IdentityServerOptions__Events__RaiseSuccessEvents

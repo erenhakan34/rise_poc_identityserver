@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: identityserveradminapitest-configmap
+data:
+    AdminApiConfiguration__ApiBaseUrl: http://admin-api.skoruba.local
+    AdminApiConfiguration__IdentityServerBaseUrl: http://sts.skoruba.local
+    ConnectionStrings__ConfigurationDbConnection: Server=mssql;Database=IdentityServer4Admin;User Id=sa;Password=Pass@word;MultipleActiveResultSets=true
+    ConnectionStrings__PersistedGrantDbConnection: Server=mssql;Database=IdentityServer4Admin;User Id=sa;Password=Pass@word;MultipleActiveResultSets=true
+    ConnectionStrings__IdentityDbConnection: Server= mssql;Database=IdentityServer4Admin;User Id=sa;Password=Pass@word;MultipleActiveResultSets=true
+    ConnectionStrings__AdminLogDbConnection: Server= mssql;Database=IdentityServer4Admin;User Id=sa;Password=Pass@word;MultipleActiveResultSets=true
+    ConnectionStrings__DataProtectionDbConnection: Server=mssql;Database=IdentityServer4Admin;User Id=sa;Password=Pass@word;MultipleActiveResultSets=true

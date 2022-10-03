@@ -1,0 +1,84 @@
+version: '3.4'
+
+services:
+  
+  maildev:
+    ports:
+      - "5500:80"
+  
+  rabbitmq:
+    ports:
+      - "5672:5672"
+  
+  redis:
+    image: redis:alpine
+    ports:
+      - "5379:6379"
+  
+  seq:
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5340:80"
+  
+  zipkin:
+    ports:
+      - "5411:9411"
+
+  skoruba.identityserver4.admin:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  
+  skoruba-identityserver4-admin-dapr:
+    command: [ "./daprd",
+               "-app-id", "skoruba.identityserver4.admin",
+               "-app-port", "80",
+               "-components-path", "/components",
+               "-config", "/configuration/dapr-config.yaml"
+    ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+
+  skoruba.identityserver4.admin.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  
+  skoruba-identityserver4-admin-api-dapr:
+    command: ["./daprd",
+              "-app-id", "skoruba.identityserver4.admin.api",
+              "-app-port", "80",
+              "-components-path", "/components",
+              "-config", "/configuration/dapr-config.yaml"
+    ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+
+
+  skoruba.identityserver4.sts.identity:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  
+  skoruba-identityserver4-sts-identity-dapr:
+    command: ["./daprd",
+              "-app-id", "skoruba.identityserver4.sts.identity",
+              "-app-port", "80",
+              "-placement-host-address", "dapr-placement:50000",
+              "-components-path", "/components",
+              "-config", "/configuration/dapr-config.yaml"
+    ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+  
+  dapr-placement:
+    command: [ "./placement", "-port", "50000", "-log-level", "debug" ]
+    ports:
+      - "50000:50000"

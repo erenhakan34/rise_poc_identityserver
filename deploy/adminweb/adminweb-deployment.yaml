@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identityplatformadminwebtest-deployment
+  labels:
+    app: identityplatformadminwebtest
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      service: identityplatformadminwebtest
+  template:
+    metadata:
+      labels:
+        app: identityplatformadminwebtest
+        service: identityplatformadminwebtest
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "identityplatformadminwebtest"
+        dapr.io/app-port: "80"
+    spec:
+      containers:
+        - name: identityplatformadminwebtest
+          image: rustemturk/identityserver4-admin:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+              requests:
+                memory: 500Mi
+                cpu: 100m              
+          env:
+            - name:  ASPNETCORE_ENVIRONMENT
+              value:  Production
+            - name: ASPNETCORE_URLS
+              value: http://+:80           
+            - name: ConnectionStrings__ConfigurationDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: ConnectionStrings__ConfigurationDbConnection                  
+            - name: ConnectionStrings__PersistedGrantDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: ConnectionStrings__PersistedGrantDbConnection
+            - name: ConnectionStrings__IdentityDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: ConnectionStrings__IdentityDbConnection                    
+            - name: ConnectionStrings__AdminLogDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: ConnectionStrings__AdminLogDbConnection
+            - name: ConnectionStrings__DataProtectionDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: ConnectionStrings__DataProtectionDbConnection
+            - name: ConnectionStrings__AdminAuditLogDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: ConnectionStrings__AdminAuditLogDbConnection
+            - name: AdminConfiguration__IdentityAdminBaseUrl
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: AdminConfiguration__IdentityAdminBaseUrl                    
+            - name: AdminConfiguration__IdentityAdminRedirectUri
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: AdminConfiguration__IdentityAdminRedirectUri    
+            - name: AdminConfiguration__IdentityServerBaseUrl
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: AdminConfiguration__IdentityServerBaseUrl    
+
+            - name: AdminConfiguration__RequirehttpMetadata
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: AdminConfiguration__RequirehttpMetadata                     
+            - name: IdentityServerData__Clients__0__ClientUri
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: IdentityServerData__Clients__0__ClientUri                     
+
+            - name: IdentityServerData__Clients__0__RedirectUris__0
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: IdentityServerData__Clients__0__RedirectUris__0                     
+
+            - name: IdentityServerData__Clients__0__FrontChannelLogoutUri
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: IdentityServerData__Clients__0__FrontChannelLogoutUri                     
+            - name: IdentityServerData__Clients__0__PostLogoutRedirectUris__0
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: IdentityServerData__Clients__0__PostLogoutRedirectUris__0                     
+            - name: IdentityServerData__Clients__0__AllowedCorsOrigins__0
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: IdentityServerData__Clients__0__AllowedCorsOrigins__0                     
+            - name: IdentityServerData__Clients__1__RedirectUris__0
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: IdentityServerData__Clients__1__RedirectUris__0                     
+            - name: Serilog__WriteTo__1__Args__connectionString
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityplatformadminwebtest-configmap
+                    key: Serilog__WriteTo__1__Args__connectionString                     
+             

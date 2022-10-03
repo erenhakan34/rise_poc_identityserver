@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: identityplatformadminwebtest-configmap
+data:
+      ConnectionStrings__ConfigurationDbConnection: Data Source=host.docker.internal,1433;Initial Catalog=IdentityServer4Admin;User ID=sa;Password=-6Ya]%Jed1PtlBL;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+      ConnectionStrings__PersistedGrantDbConnection: Data Source=host.docker.internal,1433;Initial Catalog=IdentityServer4Admin;User ID=sa;Password=-6Ya]%Jed1PtlBL;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+      ConnectionStrings__IdentityDbConnection: Data Source=host.docker.internal,1433;Initial Catalog=IdentityServer4Admin;User ID=sa;Password=-6Ya]%Jed1PtlBL;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+      ConnectionStrings__AdminLogDbConnection: Data Source=host.docker.internal,1433;Initial Catalog=IdentityServer4Admin;User ID=sa;Password=-6Ya]%Jed1PtlBL;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+      ConnectionStrings__DataProtectionDbConnection: Data Source=host.docker.internal,1433;Initial Catalog=IdentityServer4Admin;User ID=sa;Password=-6Ya]%Jed1PtlBL;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+      ConnectionStrings__AdminAuditLogDbConnection: Data Source=host.docker.internal,1433;Initial Catalog=IdentityServer4Admin;User ID=sa;Password=-6Ya]%Jed1PtlBL;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+      AdminConfiguration__IdentityAdminBaseUrl: http://admin.skoruba.local
+      AdminConfiguration__IdentityAdminRedirectUri: http://admin.skoruba.local/signin-oidc
+      AdminConfiguration__IdentityServerBaseUrl: http://sts.skoruba.local
+      AdminConfiguration__RequirehttpMetadata: "false"
+      IdentityServerData__Clients__0__ClientUri: http://admin.skoruba.local
+      IdentityServerData__Clients__0__RedirectUris__0: http://admin.skoruba.local/signin-oidc
+      IdentityServerData__Clients__0__FrontChannelLogoutUri: http://admin.skoruba.local/signin-oidc
+      IdentityServerData__Clients__0__PostLogoutRedirectUris__0: http://admin.skoruba.local/signout-callback-oidc
+      IdentityServerData__Clients__0__AllowedCorsOrigins__0: http://admin.skoruba.local
+      IdentityServerData__Clients__1__RedirectUris__0: http://admin-api.skoruba.local/swagger/oauth2-redirect.html
+      Serilog__WriteTo__1__Args__connectionString: Data Source=host.docker.internal,1433;Initial Catalog=IdentityServer4Admin;User ID=sa;Password=-6Ya]%Jed1PtlBL;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+
+
+
+
+           
+

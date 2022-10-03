@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: identityserver-configmap
+data:
+  ConnectionStrings__ConfigurationDbConnection: Data Source=host.docker.internal,1433;Initial Catalog=IdentityServer4Admin;User ID=sa;Password=-6Ya]%Jed1PtlBL;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+  ConnectionStrings__PersistedGrantDbConnection: Data Source=host.docker.internal,1433;Initial Catalog=IdentityServer4Admin;User ID=sa;Password=-6Ya]%Jed1PtlBL;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+  ConnectionStrings__IdentityDbConnection: Data Source=host.docker.internal,1433;Initial Catalog=IdentityServer4Admin;User ID=sa;Password=-6Ya]%Jed1PtlBL;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+  ConnectionStrings__DataProtectionDbConnection: Data Source=host.docker.internal,1433;Initial Catalog=IdentityServer4Admin;User ID=sa;Password=-6Ya]%Jed1PtlBL;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+  AdminConfiguration__IdentityAdminBaseUrl: http://admin.skoruba.local
+  IdentityServerOptions__IssuerUri: http://sts.skoruba.local
+  IdentityServerOptions__Events__RaiseErrorEvents: "true"
+  IdentityServerOptions__Events__RaiseInformationEvents: "true"
+  IdentityServerOptions__Events__RaiseFailureEvents: "true"
+  IdentityServerOptions__Events__RaiseSuccessEvents: "true"

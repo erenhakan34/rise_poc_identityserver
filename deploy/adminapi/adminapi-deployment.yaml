@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identityserveradminapitest-deployment
+  labels:
+    app: identityserveradminapitest
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      service: identityserveradminapitest
+  template:
+    metadata:
+      labels:
+        app: identityserveradminapitest
+        service: identityserveradminapitest
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "identityserveradminapitest"
+        dapr.io/app-port: "80"
+    spec:
+      containers:
+        - name: identityserveradminapitest
+          image: rustemturk/identityserver4-admin-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+              requests:
+                memory: 500Mi
+                cpu: 100m              
+          env:
+            - name:  ASPNETCORE_ENVIRONMENT
+              value:  Production
+            - name: ASPNETCORE_URLS
+              value: http://+:80
+            - name: ConnectionStrings__ConfigurationDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserveradminapitest-configmap
+                    key: ConnectionStrings__ConfigurationDbConnection                  
+            - name: ConnectionStrings__PersistedGrantDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserveradminapitest-configmap
+                    key: ConnectionStrings__PersistedGrantDbConnection
+            - name: ConnectionStrings__IdentityDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserveradminapitest-configmap
+                    key: ConnectionStrings__IdentityDbConnection                    
+            - name: ConnectionStrings__AdminLogDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserveradminapitest-configmap
+                    key: ConnectionStrings__AdminLogDbConnection
+            - name: ConnectionStrings__AdminAuditLogDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserveradminapitest-configmap
+                    key: connectionstrings_adminauditlogdbconnection                    
+            - name: ConnectionStrings__DataProtectionDbConnection
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserveradminapitest-configmap
+                    key: ConnectionStrings__DataProtectionDbConnection
+            - name: AdminApiConfiguration__ApiBaseUrl
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserveradminapitest-configmap
+                    key: AdminApiConfiguration__ApiBaseUrl                    
+            - name: AdminApiConfiguration__IdentityServerBaseUrl
+              valueFrom:
+                  configMapKeyRef:
+                    name: identityserveradminapitest-configmap
+                    key: AdminApiConfiguration__IdentityServerBaseUrl        
